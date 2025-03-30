@@ -55,6 +55,110 @@ A comprehensive e-commerce analytics dashboard built with Streamlit that provide
    - Or upload your own e-commerce data through the Data Import page
    - Navigate through the different analysis modules using the sidebar menu
 
+## Deployment
+
+### Streamlit Cloud
+
+The easiest way to deploy InsightCommerce Pro is using Streamlit Cloud:
+
+1. Push your code to a GitHub repository
+2. Sign up for [Streamlit Cloud](https://streamlit.io/cloud)
+3. Create a new app and connect it to your GitHub repository
+4. Select app.py as the main file
+5. Click "Deploy"
+
+### Heroku
+
+To deploy on Heroku:
+
+1. Create a `requirements.txt` file (if not already present):
+   ```
+   pip freeze > requirements.txt
+   ```
+
+2. Create a `Procfile` in the project root:
+   ```
+   echo "web: streamlit run app.py --server.port \$PORT --server.enableCORS false" > Procfile
+   ```
+
+3. Deploy to Heroku:
+   ```
+   heroku login
+   heroku create your-app-name
+   git push heroku main
+   ```
+
+### Docker
+
+To containerize the application:
+
+1. Create a `Dockerfile` in the project root:
+   ```
+   FROM python:3.11-slim
+
+   WORKDIR /app
+
+   COPY requirements.txt .
+   RUN pip install -r requirements.txt
+
+   COPY . .
+
+   EXPOSE 8501
+
+   CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+   ```
+
+2. Build and run the Docker container:
+   ```
+   docker build -t insightcommerce-pro .
+   docker run -p 8501:8501 insightcommerce-pro
+   ```
+
+3. For cloud deployment (e.g., AWS ECS, Google Cloud Run):
+   - Push your image to a container registry
+   - Configure your cloud service to use this image
+   - Set appropriate environment variables for your database and any API keys
+
+### Self-hosted (nginx)
+
+To deploy on your own server with nginx:
+
+1. Set up a systemd service (on Linux):
+   ```
+   [Unit]
+   Description=InsightCommerce Pro Streamlit App
+   After=network.target
+
+   [Service]
+   User=your_user
+   WorkingDirectory=/path/to/ProfitPioneer
+   ExecStart=/path/to/ProfitPioneer/venv/bin/streamlit run app.py --server.port 8501
+   Restart=always
+
+   [Install]
+   WantedBy=multi-user.target
+   ```
+
+2. Configure nginx as a reverse proxy:
+   ```
+   server {
+       listen 80;
+       server_name your-domain.com;
+
+       location / {
+           proxy_pass http://localhost:8501;
+           proxy_http_version 1.1;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header Host $host;
+           proxy_set_header Upgrade $http_upgrade;
+           proxy_set_header Connection "upgrade";
+           proxy_read_timeout 86400;
+       }
+   }
+   ```
+
+3. Secure with SSL using Certbot/Let's Encrypt
+
 ## Project Structure
 
 ```
@@ -72,6 +176,9 @@ ProfitPioneer/
 │   └── visualization.py   # Chart and visualization components
 ├── .streamlit/            # Streamlit configuration
 ├── pyproject.toml         # Project dependencies
+├── requirements.txt       # Dependency list for deployment
+├── Procfile               # For Heroku deployment
+├── Dockerfile             # For Docker deployment
 └── README.md              # This documentation
 ```
 
