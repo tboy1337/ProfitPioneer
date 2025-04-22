@@ -25,7 +25,7 @@ A comprehensive e-commerce analytics dashboard built with Streamlit that provide
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/ProfitPioneer.git
+   git clone https://github.com/tboy1337/ProfitPioneer.git
    cd ProfitPioneer
    ```
 
