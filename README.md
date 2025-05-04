@@ -51,7 +51,7 @@ A comprehensive e-commerce analytics dashboard built with Streamlit that provide
 2. Open your web browser and navigate to the provided URL (typically http://localhost:8501)
 
 3. To get started:
-   - Use the sample data option in the sidebar
+   - Use the built-in sample data option in the sidebar for demonstration
    - Or upload your own e-commerce data through the Data Import page
    - Navigate through the different analysis modules using the sidebar menu
 
@@ -70,18 +70,6 @@ The easiest way to deploy InsightCommerce Pro is using Streamlit Cloud:
 ### Heroku
 
 To deploy on Heroku:
-
-1. Create a `requirements.txt` file (if not already present):
-   ```
-   pip freeze > requirements.txt
-   ```
-
-2. Create a `Procfile` in the project root:
-   ```
-   echo "web: streamlit run app.py --server.port \$PORT --server.enableCORS false" > Procfile
-   ```
-
-3. Deploy to Heroku:
    ```
    heroku login
    heroku create your-app-name
@@ -90,31 +78,15 @@ To deploy on Heroku:
 
 ### Docker
 
-To containerize the application:
+To containerize the application using the provided `Dockerfile`:
 
-1. Create a `Dockerfile` in the project root:
-   ```
-   FROM python:3.11-slim
-
-   WORKDIR /app
-
-   COPY requirements.txt .
-   RUN pip install -r requirements.txt
-
-   COPY . .
-
-   EXPOSE 8501
-
-   CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
-   ```
-
-2. Build and run the Docker container:
+1. Build and run the Docker container:
    ```
    docker build -t insightcommerce-pro .
    docker run -p 8501:8501 insightcommerce-pro
    ```
 
-3. For cloud deployment (e.g., AWS ECS, Google Cloud Run):
+2. For cloud deployment (e.g., AWS ECS, Google Cloud Run):
    - Push your image to a container registry
    - Configure your cloud service to use this image
    - Set appropriate environment variables for your database and any API keys
@@ -179,6 +151,9 @@ ProfitPioneer/
 ├── requirements.txt       # Dependency list for deployment
 ├── Procfile               # For Heroku deployment
 ├── Dockerfile             # For Docker deployment
+├── uv.lock                # Dependency lock file
+├── generated-icon.png     # App icon
+├── LICENCE                # Project license
 └── README.md              # This documentation
 ```
 
@@ -193,7 +168,7 @@ The application expects e-commerce data with the following attributes:
 - Customer segmentation data (optional)
 - Geographic information (optional)
 
-Sample data is provided within the application for demonstration purposes.
+Sample data is provided within the application for demonstration purposes and is not related to any external platform.
 
 ## Customization
 
