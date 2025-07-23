@@ -179,7 +179,7 @@ You can customize the dashboard by:
 
 ## License
 
-This project is licensed under the terms of the [MIT License](LICENSE.txt).
+This project is licensed under the terms of the [MIT License](LICENCE.txt).
 
 ## Contributing
 
